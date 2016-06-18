@@ -1,0 +1,8 @@
+{
+  "streams": [{
+    "type": "rotating-file",
+    "path": "./logs/app.log",
+    "period": "1d",
+    "count": 3
+  }]
+}
