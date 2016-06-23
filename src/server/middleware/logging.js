@@ -20,18 +20,18 @@ export const logging = function logging () {
     }));
 
     return async (ctx, next) => {
-
+        
         const start = new Date;
 
-        ctx.log = logger.child({
+        ctx.logger = logger.child({
             requestId: uuid.v4()
         });
         // log incoming request
-        ctx.log.info(`[REQ] ${ctx.method} ${ctx.path}`);
+        ctx.logger.info(`[REQ] ${ctx.method} ${ctx.path}`);
 
-        await next;
+        await next();
 
         // log the time the request took to complete
-        ctx.log.info(`[RESP] ${ctx.status} ${ctx.method} ${ctx.path} in ${new Date - start}ms`);
+        ctx.logger.info(`[RESP] ${ctx.status} ${ctx.method} ${ctx.path} in ${new Date - start}ms`);
     };
 };

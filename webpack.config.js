@@ -6,32 +6,31 @@ const ROOT_PATH = path.resolve(__dirname);
 
 module.exports = {
     entry: [
-        'webpack-dev-server/client?http://127.0.0.1:8080',
-        path.resolve(ROOT_PATH, 'src/main/browser/index'),
+        'babel-polyfill',
+        path.resolve(ROOT_PATH, 'src/browser/index'),
     ],
     module: {
         loaders: [{
             test: /\.js?$/,
             exclude: /node_modules/,
-            loaders: ['react-hot', 'babel'],
+            loaders: ["react-hot", "babel"],
         }]
     },
     resolve: {
         extensions: ['', '.js']
     },
     output: {
-        path: path.resolve(ROOT_PATH, '_cdn'),
-        publicPath: '/static/',
+        // path: path.resolve(ROOT_PATH, '_cdn'),
+        publicPath: 'assets',
         filename: 'bundle.js'
     },
     devServer: {
-        contentBase: path.resolve(ROOT_PATH, 'build'),
-        historyApiFallback: true,
+        contentBase: 'http://localhost:8000',
         hot: true,
         inline: true,
         progress: true
     },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
     ]
 };
