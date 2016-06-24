@@ -10,11 +10,13 @@ export const Message = new Record({
     tags: new List(),
     comments: new List(),
     isLoading: false,
-    showComments: false
+    showComments: false,
+    author: new List()
 });
 
 export const Comment = new Record({
     id: undefined,
     body: '',
-    posted_at: ''
+    posted_at: '',
+    author: new List()
 });

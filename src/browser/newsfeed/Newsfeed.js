@@ -40,11 +40,16 @@ class Newsfeed extends Component {
         return(
             <section>
                 {messages.map(id =>
-                    <Message
-                        key={id}
-                        id={id}
-                        onClick={() => onShowCommentsClick(id)}
-                    />
+                    <div>
+                        <Message
+                            key={Math.random()*100}
+                            id={id}
+                            onClick={() => onShowCommentsClick(id)}
+                        />
+                        <hr/>
+                    </div>
+                }
+
                 )}
             </section>
         );

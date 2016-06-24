@@ -23,7 +23,7 @@ export function toImmutableMessages (msgIds, messages) {
 }
 
 export function toImmutableComments (comments) {
-    return Map(Object.keys(comments).map(id => [id, new Comment(comments[id])]))
+    return Map(Object.keys(comments).map(id => [id, new Comment(comments[id])]));
 }
 
 /**
@@ -64,7 +64,7 @@ export async function getComments (msgId) {
         // parsing
         return toImmutableComments(await response.json());
     } catch (error) {
-        logger.error('error: ', error);
+        console.error('error: ', error);
     }
     return Map({});
 }

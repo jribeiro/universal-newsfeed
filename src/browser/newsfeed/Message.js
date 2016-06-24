@@ -2,22 +2,22 @@
 import React, { PropTypes, Component } from 'react';
 import Comment from './Comment';
 import { connect } from 'react-redux';
-import TimeAgo from 'react-timeago'
+import TimeAgo from 'react-timeago';
 
 /**
  * Assigns the message entity to the properties
- * @param {Object} state 
+ * @param {Object} state
  * @param {String} id Message id
  * @returns {Object}
  */
-const mapStateToProps = (state, {id}) => {
+export const mapStateToProps = (state, {id}) => {
     let message = state.getIn(['entities', 'messages', id]) || {};
     return {
         message
     };
 };
 
-export default class Message extends Component {
+export class Message extends Component {
 
     static propTypes = {
         onClick: PropTypes.func.isRequired,
@@ -29,7 +29,11 @@ export default class Message extends Component {
             topics: PropTypes.array,
             tags: PropTypes.array,
             comments: PropTypes.array,
-            visibleComments: PropTypes.array
+            visibleComments: PropTypes.array,
+            author: PropTypes.shape({
+                display_name: PropTypes.string,
+                avatar: PropTypes.string,
+            }).isRequired,
         })
     };
 
@@ -37,13 +41,15 @@ export default class Message extends Component {
         const {
             onClick,
             message: {
+                id,
                 subject,
                 body,
                 posted_at,
                 topics,
                 tags,
                 comments = [],
-                showComments
+                showComments,
+                author
             }
         } = this.props;
         const bodyHtml = {
@@ -59,15 +65,18 @@ export default class Message extends Component {
                 />
             )
         } else if (comments.length > 0){
-            commentFragment = <button onClick={onClick}>View Comments</button>;
+            commentFragment = <a className="view-comments" onClick={onClick}>View {comments.length} Comments</a>;
         }
 
-        return (<article>
-            <h2>{subject}</h2>
-            <TimeAgo date={posted_at} />
-            <p dangerouslySetInnerHTML={bodyHtml}></p>
-            {commentFragment}
-        </article>);
+        return (
+            <article>
+                <img className="banner" src={`http://lorempixel.com/1000/600/people/${id}`}/>
+                <h2>{subject}</h2>
+                <p className="details">Posted <TimeAgo date={posted_at} /> by {author.display_name}</p>
+                <div className="content" dangerouslySetInnerHTML={bodyHtml}></div>
+                {commentFragment}
+            </article>
+        );
     }
 };
 

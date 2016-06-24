@@ -10,17 +10,19 @@ module.exports = {
         path.resolve(ROOT_PATH, 'src/browser/index'),
     ],
     module: {
-        loaders: [{
-            test: /\.js?$/,
-            exclude: /node_modules/,
-            loaders: ["react-hot", "babel"],
-        }]
-    },
-    resolve: {
-        extensions: ['', '.js']
+        loaders: [
+            {
+                test: /\.js?$/,
+                exclude: /node_modules/,
+                loaders: ["react-hot", "babel"],
+            },
+            {
+                test: /\.css$/,
+                loader: "style-loader!css-loader"
+            }
+        ]
     },
     output: {
-        // path: path.resolve(ROOT_PATH, '_cdn'),
         publicPath: 'assets',
         filename: 'bundle.js'
     },
@@ -32,5 +34,10 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.DefinePlugin({
+            "process.env": {
+                BROWSER: JSON.stringify(true)
+            }
+        })
     ]
 };
